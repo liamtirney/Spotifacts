@@ -4,27 +4,58 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import data from '../sample_data/top_tracks_short.json';
+import {getDuration} from '../functions';
 
 function MainDisplay() {
     const [expanded, setExpanded] = React.useState(false);
 
+    let panelNum = 1;
+    let panelName = `panel${panelNum}`;
+
     const handleChange =
     (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
+        panelNum++;
     };
+
+    const getItems = () => data.items.map(item => 
+        <Accordion expanded={expanded === panelName} onChange={handleChange(panelName)}>
+        <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1bh-content"
+            id="panel1bh-header"
+        >
+            <Typography sx={{ flex:1 }}>
+            {item['name']}
+            </Typography>
+            <Typography sx={{ flex:1, color: 'text.secondary' }}>{item['name']} by {item['artists'][0]['name']}</Typography>
+            <Typography sx={{ flex:1, width: '33%', color: 'text.secondary' }}>
+            {getDuration(item['duration_ms'])}
+            </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+            <Typography>
+            Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat.
+            Aliquam eget maximus est, id dignissim quam.
+            </Typography>
+        </AccordionDetails>
+        </Accordion>
+    );
   
     return (
         <div>
-            <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+            {getItems()}
+            {/* <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1bh-content"
                 id="panel1bh-header"
             >
                 <Typography sx={{ width: '33%', flexShrink: 0 }}>
-                General settings
+                {items[0]['name']}
                 </Typography>
-                <Typography sx={{ color: 'text.secondary' }}>I am an accordion</Typography>
+                <Typography sx={{ color: 'text.secondary' }}>{items[0]['name']} by {items[0]['artists'][0]['name']}</Typography>
             </AccordionSummary>
             <AccordionDetails>
                 <Typography>
@@ -86,7 +117,7 @@ function MainDisplay() {
                 amet egestas eros, vitae egestas augue. Duis vel est augue.
                 </Typography>
             </AccordionDetails>
-            </Accordion>
+            </Accordion> */}
         </div>
     )
 }
