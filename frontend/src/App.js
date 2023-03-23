@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import TimeFrameButtons from './components/TimeFrameButtons';
 import TopItemsButtons from './components/TopItemsButtons';
-import MainDisplay from './components/MainDisplay';
+import MainDisplay from './components/MainDisplay/MainDisplay';
 
 function App() {
   return (

@@ -6,9 +6,9 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 function TopItemsButtons() {
   return(
     <Stack spacing={0} direction="row">
-      <ButtonGroup variant="contained" aria-label="outlined primary button group">
-        <Button>Top Tracks</Button>
-        <Button>Top Artists</Button>
+      <ButtonGroup aria-label="outlined primary button group">
+        <Button variant="contained">Top Tracks</Button>
+        <Button variant="outlined">Top Artists</Button>
       </ButtonGroup>
     </Stack>
   )
