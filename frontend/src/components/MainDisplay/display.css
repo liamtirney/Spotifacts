@@ -1,0 +1,17 @@
+.arrow-button {
+  display: flex;
+  align-items: center;
+}
+
+.prev-arrow {
+  justify-content: end;
+}
+
+.next-arrow {
+  justify-content: start;
+}
+
+.items {
+  align-items: center;
+  justify-content: center
+}

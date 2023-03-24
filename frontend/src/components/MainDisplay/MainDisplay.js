@@ -25,14 +25,13 @@ import spacing from '@mui/system';
 import CssBaseLine from "@mui/material/CssBaseline"
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 
-import TopItem2 from './TopItem2';
+// import TopItem2 from './TopItem2';
 
 
 
 
 function MainDisplay() {
     const NUM_ITEMS_IN_PAGE = 10;
-    // const [expanded, setExpanded] = React.useState(false);
     const [page, setPage] = React.useState(1);
     const [offset, setOffset] = React.useState(NUM_ITEMS_IN_PAGE * (page-1));
 
@@ -47,38 +46,38 @@ function MainDisplay() {
             container
             direction="row"
             justifyContent="center"
-            alignItems="stretch" // default "stretch"
-            // style={{ borderStyle: "dashed", borderColor: "black" }}
+            alignContent="center"
+            height="1000px"
+            // alignItems="center" // default "stretch"
+            style={{ borderStyle: "dashed", borderColor: "black" }}
         >
-            <Grid 
-            container 
-            justifyContent="end" 
-            alignItems="center" 
-            xs={2} 
-            // style={{ borderStyle: "dashed", borderColor: "black" }}
-            >
-                <Grid 
-                item 
-                // style={{ borderStyle: "dashed", borderColor: "black", height: "29px", width: "16px"}}
-                >
-                    <PrevButton/>
-                </Grid>
-            </Grid>
-
             <Grid 
             container 
             justifyContent="center" 
             alignItems="center" 
-            xs={8} 
-            // style={{ borderStyle: "dashed", borderColor: "black" }}
+            // height="100px"
+            xs={2} 
+            style={{ borderStyle: "dashed", borderColor: "black" }}
             >
-                <Grid 
-                item
-                // style={{ borderStyle: "dashed", borderColor: "black" }}
-                >
-                    {getItems()}
-                    {/* <TopItem2/> */}
-                </Grid>
+                { (page > 1) ? <PrevButton
+                        page={page}
+                        setPage={setPage}
+                        offset={offset}
+                        setOffset={setOffset}/> : null }
+            </Grid>
+
+            <Grid 
+            container 
+            // justifyContent="center" 
+            // alignItems="center" 
+            // height="900px"
+            // width="100px"
+            xs={6} 
+            md={5}
+            style={{ borderStyle: "dashed", borderColor: "black" }}
+            >
+                {getItems()}
+                {/* <TopItem2/> */}
             </Grid>
 
             <Grid 
@@ -86,53 +85,15 @@ function MainDisplay() {
             justifyContent="start" 
             alignItems="center" 
             xs={2} 
-            // style={{ borderStyle: "dashed", borderColor: "black" }}
+            style={{ borderStyle: "dashed", borderColor: "black" }}
             >
-                <Grid 
-                item 
-                pr={2.2}
-                ml={0.6}
-                // style={{ borderStyle: "dashed", borderColor: "black", height: "28px", width: "16px"}}
-                >
-                    <NextButton/>
-                </Grid>
+                { (page < 5) ? <NextButton
+                        page={page}
+                        setPage={setPage}
+                        offset={offset}
+                        setOffset={setOffset}/> : null }
             </Grid>
-            <Grid 
-            container
-            height={"3rem"}
-            // style={{ borderStyle: "dashed", borderColor: "black"}}
-            ></Grid>
         </Grid>
-
-        // <Container style={{ borderStyle: "dashed", borderColor: "black" }}>
-        //     <Box style={{ borderStyle: "solid", height: "100px" }} display="flex" flexDirection="row" justifyContent="center">
-        //         <Box p={1} m={1}>Hello</Box>
-        //         <Box p={1} m={1}>Hello</Box>
-        //         <Box p={1} m={1}>Hello</Box>
-        //         <Box p={1} m={1}>Hello</Box>
-        //     </Box>
-        //     <Box>
-        //         Hi there
-        //     </Box>
-        // </Container>
-
-        // <div>
-        //     <Grid container spacing={2}>
-        //         <Grid xs={2} />
-        //         <Box sx={{ flexGrow: 1 }} display="flex" border="1px solid black" justifyContent="end">
-        //             <Grid xs={1} display="flex" border="1px solid black" justifyContent="center">
-        //                 <PrevButton/>
-        //             </Grid>
-        //         </Box>
-        //         <Grid xs={6}>
-        //             {getItems()}
-        //         </Grid>
-        //         <Grid xs={1}>
-        //             <NextButton/>
-        //         </Grid>
-        //         <Grid xs={2} />
-        //     </Grid>
-        // </div>
     )
 }
 
