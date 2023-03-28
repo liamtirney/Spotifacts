@@ -3,19 +3,18 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
-function NextButton( {page, setPage, offset, setOffset} ) {
+function NextButton( {page, setPage, maxPages} ) {
 
   const handleNextButtonClick =
     () => () => {
-      if (page < 5){
+      if (page < maxPages){
         setPage(page+1);
-        setOffset(offset+10);
       }
   };
 
   return(
-    <Button variant="outlined" onClick={handleNextButtonClick()}>
-      <Stack spacing={0} direction="row">
+    <Button onClick={handleNextButtonClick()}>
+      <Stack className="arrow-buttons" spacing={0} direction="row">
         <ArrowForwardIosIcon/>
       </Stack>
     </Button>

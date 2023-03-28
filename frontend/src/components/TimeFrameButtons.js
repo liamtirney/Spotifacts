@@ -9,12 +9,12 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import spacing from '@mui/system';
 
-function TimeFrameButtons() {
-  const [active, setActive] = React.useState("1");
+function TimeFrameButtons( {timeFrame, setTimeFrame} ) {
 
   const handleActiveButtonClick =
-    (id) => (event) => {
-      setActive(id);
+    (term) => (event) => {
+      if (timeFrame !== term)
+        setTimeFrame(term);
   };
   
   return(
@@ -29,9 +29,19 @@ function TimeFrameButtons() {
       <Stack spacing={0} direction="row">
         <ButtonGroup aria-label="outlined primary button group">
 
-          <Button id="1" variant={(active === "1") ? "contained" : "outlined"} onClick={handleActiveButtonClick("1")}>4 Weeks</Button>
-          <Button id="2" variant={(active === "2") ? "contained" : "outlined"} onClick={handleActiveButtonClick("2")}>6 Months</Button>
-          <Button id="3" variant={(active === "3") ? "contained" : "outlined"} onClick={handleActiveButtonClick("3")}>All Time</Button>
+          <Button
+            id="short-term-btn"
+            variant={(timeFrame === "short") ? "contained" : "outlined"}
+            onClick={handleActiveButtonClick("short")}>4 Weeks</Button>
+          <Button
+            id="medium-term-btn"
+            variant={(timeFrame === "medium") ? "contained" : "outlined"}
+            onClick={handleActiveButtonClick("medium")}>6 Months</Button>
+          <Button
+            id="long-term-btn"
+            variant={(timeFrame === "long") ? "contained" : "outlined"}
+            onClick={handleActiveButtonClick("long")}>All Time</Button>
+
         </ButtonGroup>
       </Stack>
     </Grid>

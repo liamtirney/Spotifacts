@@ -5,44 +5,44 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {getDuration} from '../../functions';
+import './display.css';
 
-function TopItem( {item, number} ) {
-  const [expanded, setExpanded] = React.useState(false);
-
-  // const handleChange =
-  // (panel) => (event, isExpanded) => {
-  //     setExpanded(isExpanded ? panel : false);
-  //     panelNum++;
-  // };
+function TopTrack( {item, number, id, expandedItem, setExpandedItem} ) {
 
   const handleChange =
     () => (event) => {
-      setExpanded(!expanded);
+      if (expandedItem !== id){
+        setExpandedItem(id);
+      } else {
+        setExpandedItem("");
+      }
   };
 
   return(
-    <Accordion expanded={expanded} onChange={handleChange()}>
+    <Accordion sx={{ width: '100%'}} expanded={expandedItem === id} onChange={handleChange()}>
         <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             // aria-controls="panel1bh-content"
             // id="panel1bh-header"
         >
             <Typography sx={{ flex:1, color: 'text.secondary' }}>
-            {number}
+              {number}
             </Typography>
-            <Typography sx={{ flex:1 }}>{item['name']} by {item['artists'][0]['name']}</Typography>
-            <Typography sx={{ flex:1, width: '33%', color: 'text.secondary' }}>
+            <Typography sx={{ flex:1 }}>{item['track_name']} by {item['artist']}</Typography>
+            <Typography sx={{ flex:1, color: 'text.secondary' }}>
             {getDuration(item['duration_ms'])}
             </Typography>
         </AccordionSummary>
         <AccordionDetails>
-            <Typography>
-            Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat.
-            Aliquam eget maximus est, id dignissim quam.
+            <Typography className="track-info" /*ml="50%"*/>
+            Album: {item['album_name']}
+            </Typography>
+            <Typography className="track-info" /*ml="50%"*/>
+            Release Year: {item['album_release_year']}
             </Typography>
         </AccordionDetails>
     </Accordion>
   )
 }
 
-export default TopItem;
+export default TopTrack;

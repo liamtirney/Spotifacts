@@ -1,17 +1,28 @@
-.arrow-button {
-  display: flex;
-  align-items: center;
+/* MainDisplay styles */
+.main-display-area {
+  /* direction: row; */
+  justify-content: center;
+  align-content: center
 }
 
+.arrow-buttons {
+  padding: 100px 50px;
+}
+
+/* PrevButton styles */
 .prev-arrow {
-  justify-content: end;
+  justify-content: flex-end;
+  align-items: center; 
 }
 
+/* NextButton styles */
 .next-arrow {
-  justify-content: start;
+  justify-content: flex-start;
+  align-items: center; 
 }
 
-.items {
-  align-items: center;
-  justify-content: center
+/* TopItem styles */
+.track-info {
+  /* display: flex; */
+  /* justify-content: flex-start; */
 }

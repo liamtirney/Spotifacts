@@ -9,12 +9,12 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import spacing from '@mui/system';
 
-function TopItemsButtons() {
-  const [active, setActive] = React.useState("1");
+function TopItemsButtons( {itemType, setItemType} ) {
 
   const handleActiveButtonClick =
-    (id) => (event) => {
-      setActive(id);
+    (type) => (event) => {
+      if (itemType !== type)
+        setItemType(type);
   };
 
   return(
@@ -28,8 +28,14 @@ function TopItemsButtons() {
   >
     <Stack spacing={0} direction="row">
       <ButtonGroup aria-label="outlined primary button group">
-          <Button id="1" variant={(active === "1") ? "contained" : "outlined"} onClick={handleActiveButtonClick("1")}>Top Tracks</Button>
-          <Button id="2" variant={(active === "2") ? "contained" : "outlined"} onClick={handleActiveButtonClick("2")}>Top Artists</Button>
+          <Button 
+            id="top-tracks-btn" 
+            variant={(itemType === "tracks") ? "contained" : "outlined"}
+            onClick={handleActiveButtonClick("tracks")}>Top Tracks</Button>
+          <Button
+            id="top-artists-btn"
+            variant={(itemType === "artists") ? "contained" : "outlined"}
+            onClick={handleActiveButtonClick("artists")}>Top Artists</Button>
       </ButtonGroup>
     </Stack>
   </Grid>

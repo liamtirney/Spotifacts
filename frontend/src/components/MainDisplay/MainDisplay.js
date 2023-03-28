@@ -1,80 +1,100 @@
-import * as React from 'react';
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import data from '../../sample_data/top_tracks_short.json';
-import {getDuration} from '../../functions';
-import TopItem from './TopItem';
+import React, { useState, useEffect } from 'react';
+import TopTrack from './TopTrack';
+import TopArtist from './TopArtist';
+import './display.css';
+import {getArtists, getTracks} from '../../functions';
 
 // side buttons
 import PrevButton from './PrevButton';
 import NextButton from './NextButton';
 
 // imports for grid
-import { styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
-
-// imports for grid
-import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import spacing from '@mui/system';
-
-import CssBaseLine from "@mui/material/CssBaseline"
-import { ThemeProvider, createTheme } from '@mui/material/styles'
-
-// import TopItem2 from './TopItem2';
 
 
-
-
-function MainDisplay() {
+function MainDisplay( {timeFrame, itemType} ) {
     const NUM_ITEMS_IN_PAGE = 10;
-    const [page, setPage] = React.useState(1);
-    const [offset, setOffset] = React.useState(NUM_ITEMS_IN_PAGE * (page-1));
+
+    const [data, setData] = useState([]);
+    const [page, setPage] = useState(1);
+    const [maxPages, setMaxPages] = useState(1);
+    const [offset, setOffset] = useState(0);
+    const [expandedItem, setExpandedItem] = useState("track-1");
+    
 
     const getItems = () => 
-        // data.items.map((item, index) => 
-        data.items.slice(offset, offset + NUM_ITEMS_IN_PAGE).map((item, index) => 
-            <TopItem item={item} number={offset+index+1}/>
-    );
+        data.slice(offset, offset + NUM_ITEMS_IN_PAGE).map((item, index) => 
+            (itemType === 'tracks') ?
+                <TopTrack item={item} number={offset+index+1}
+                    key={`track-${offset+index+1}`}
+                    id={`track-${offset+index+1}`}
+                    expandedItem={expandedItem}
+                    setExpandedItem={setExpandedItem}/> :
+                <TopArtist item={item} number={offset+index+1}
+                    key={`artist-${offset+index+1}`}
+                    id={`artist-${offset+index+1}`}
+                    expandedItem={expandedItem}
+                    setExpandedItem={setExpandedItem}/>
+        );
+
+    // fetch data after components mount
+    useEffect(() => {
+        const items = getTracks('short');
+        setData(items);
+        setMaxPages(Math.ceil(items.length/NUM_ITEMS_IN_PAGE));
+    }, []);
+
+    useEffect(() => {
+        let newData, newExpandedItem;
+        if (itemType === 'artists') {
+            newData = getArtists(timeFrame);
+            newExpandedItem = `artist-1`;
+
+        } else if (itemType === 'tracks') {
+            newData = getTracks(timeFrame);
+            newExpandedItem = `track-1`;
+        }
+
+        setData(newData);
+        setExpandedItem(newExpandedItem);
+        setMaxPages(Math.ceil(newData.length/NUM_ITEMS_IN_PAGE));
+        setPage(1);
+        setOffset(0);
+    }, [itemType, timeFrame]);
+
+    useEffect(() => {
+        const newOffset = NUM_ITEMS_IN_PAGE * (page-1);
+        setOffset(newOffset);
+        const newExpandedItem = (itemType === 'tracks') ? `track-${newOffset+1}` :
+                            `artist-${newOffset+1}`;
+        setExpandedItem(newExpandedItem);
+    }, [page, itemType]);
   
     return (
         <Grid
             container
-            direction="row"
-            justifyContent="center"
-            alignContent="center"
-            height="1000px"
+            className="main-display-area"
+            // height="1000px"
             // alignItems="center" // default "stretch"
-            style={{ borderStyle: "dashed", borderColor: "black" }}
+            // style={{ borderStyle: "dashed", borderColor: "black" }}
         >
             <Grid 
-            container 
-            justifyContent="center" 
-            alignItems="center" 
+            container
+            className="prev-arrow"
             // height="100px"
             xs={2} 
-            style={{ borderStyle: "dashed", borderColor: "black" }}
+            // style={{ borderStyle: "dashed", borderColor: "black" }}
             >
                 { (page > 1) ? <PrevButton
-                        page={page}
-                        setPage={setPage}
-                        offset={offset}
-                        setOffset={setOffset}/> : null }
+                    page={page}
+                    setPage={setPage}/> : null }
             </Grid>
 
             <Grid 
             container 
-            // justifyContent="center" 
-            // alignItems="center" 
-            // height="900px"
-            // width="100px"
-            xs={6} 
+            sm={6}
             md={5}
-            style={{ borderStyle: "dashed", borderColor: "black" }}
+            // style={{ borderStyle: "dashed", borderColor: "black" }}
             >
                 {getItems()}
                 {/* <TopItem2/> */}
@@ -82,16 +102,14 @@ function MainDisplay() {
 
             <Grid 
             container 
-            justifyContent="start" 
-            alignItems="center" 
+            className="next-arrow"
             xs={2} 
-            style={{ borderStyle: "dashed", borderColor: "black" }}
+            // style={{ borderStyle: "dashed", borderColor: "black" }}
             >
-                { (page < 5) ? <NextButton
-                        page={page}
-                        setPage={setPage}
-                        offset={offset}
-                        setOffset={setOffset}/> : null }
+                { (page < maxPages) ? <NextButton
+                    page={page}
+                    setPage={setPage}
+                    maxPages={maxPages}/> : null }
             </Grid>
         </Grid>
     )
