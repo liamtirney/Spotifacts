@@ -39,11 +39,14 @@ function MainDisplay( {timeFrame, itemType} ) {
 
     // fetch data after components mount
     useEffect(() => {
-        const items = getTracks('short');
+        const items = getTracks(timeFrame);
         setData(items);
         setMaxPages(Math.ceil(items.length/NUM_ITEMS_IN_PAGE));
     }, []);
 
+    // For every click on any of the button groups,
+    // get the list of items for both top tracks and top artists
+    // with current timeframe
     useEffect(() => {
         let newData, newExpandedItem;
         if (itemType === 'artists') {
@@ -55,6 +58,7 @@ function MainDisplay( {timeFrame, itemType} ) {
             newExpandedItem = `track-1`;
         }
 
+        // console.log(newData);
         setData(newData);
         setExpandedItem(newExpandedItem);
         setMaxPages(Math.ceil(newData.length/NUM_ITEMS_IN_PAGE));

@@ -19,7 +19,7 @@ function TopTrack( {item, number, id, expandedItem, setExpandedItem} ) {
   };
 
   return(
-    <Accordion sx={{ width: '100%'}} expanded={expandedItem === id} onChange={handleChange()}>
+    <Accordion sx={{ width: '100%' }} expanded={expandedItem === id} onChange={handleChange()}>
         <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             // aria-controls="panel1bh-content"

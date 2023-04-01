@@ -31,8 +31,12 @@ export const getTracks = (timeFrame) => {
       break;
   }
 
-  if (!tracks) return [];
-  
+  if (!tracks) {
+    console.log("tracks empty");
+    return [];
+  }
+  console.log("tracks NOT empty");
+
   const items = tracks.items.map((item) =>(
     {
       track_name: item['name'],
@@ -51,10 +55,10 @@ export const getArtists = (timeFrame) => {
     {
       artist: item['name'],
       artist_photo_url: item['images'][0]['url'],
-      top_tracks: []
+      top_tracks: [] // Make function call to getTracks and apply logic to get
+                     // artist's tracks that showed up in top tracks 
     }
 
-    // get list of artist's tracks that showed up in top tracks
   ));
   return items;
 }
